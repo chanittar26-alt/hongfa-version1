@@ -6,188 +6,70 @@
     <title>ระบบคลังสินค้าอัจฉริยะ - บริษัทหงฟา</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #007bff;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --dark-color: #343a40;
-            --light-bg: #f4f7f6;
-        }
-
-        body { 
-            font-family: 'Sarabun', sans-serif; 
-            background-color: var(--light-bg); 
-            margin: 0; padding: 0; 
-        }
-
-        .header {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
+        :root { --primary-color: #007bff; --success-color: #28a745; --danger-color: #dc3545; --dark-color: #343a40; --light-bg: #f4f7f6; }
+        body { font-family: 'Sarabun', sans-serif; background-color: var(--light-bg); margin: 0; padding: 0; }
+        .header { background-color: var(--dark-color); color: white; padding: 20px; text-align: center; }
         .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-
-        /* Dashboard Cards */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-bottom: 5px solid var(--primary-color);
-        }
-
-        .card h3 { margin: 0; font-size: 14px; color: #666; }
-        .card p { margin: 10px 0 0; font-size: 24px; font-weight: bold; color: var(--dark-color); }
-
-        /* Sections */
-        .section {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        h2 { margin-top: 0; font-size: 18px; border-left: 4px solid var(--primary-color); padding-left: 10px; }
-
-        /* Forms & Inputs */
-        .grid-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-
-        input, select, button {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-danger { background-color: var(--danger-color); }
-        .btn-clear { background-color: #6c757d; margin-top: 10px; font-size: 12px; }
-
-        /* Tables */
-        .table-container { overflow-x: auto; }
+        .section { background: white; padding: 25px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        input, select, button { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+        button { background-color: var(--primary-color); color: white; border: none; cursor: pointer; font-weight: bold; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        th { background-color: #f8f9fa; color: #555; }
-
-        .status-in { background: #e8f5e9; color: var(--success-color); padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-        .status-out { background: #ffebee; color: var(--danger-color); padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-        
+        th { background-color: #f8f9fa; }
         .badge-qty { background: #e7f3ff; color: var(--primary-color); padding: 2px 8px; border-radius: 10px; font-weight: bold; }
-
-        .search-box { width: 100%; margin-bottom: 15px; box-sizing: border-box; }
+        datalist { font-family: 'Sarabun'; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>HONGFA WAREHOUSE SYSTEM</h1>
-    <p>ระบบบริหารจัดการคลังสินค้า บริษัทหงฟา จำกัด</p>
+    <p>ระบบบริหารจัดการคลังสินค้าแบบลดขั้นตอนการคีย์ข้อมูล</p>
 </div>
 
 <div class="container">
-    <div class="dashboard">
-        <div class="card">
-            <h3>รายการทั้งหมด</h3>
-            <p id="stat-total">0</p>
-        </div>
-        <div class="card" style="border-color: var(--success-color);">
-            <h3>รับเข้าสะสม</h3>
-            <p id="stat-in" style="color: var(--success-color);">0</p>
-        </div>
-        <div class="card" style="border-color: var(--danger-color);">
-            <h3>จ่ายออกสะสม</h3>
-            <p id="stat-out" style="color: var(--danger-color);">0</p>
-        </div>
-    </div>
-
     <div class="section">
-        <h2>➕ บันทึกรับเข้า - จ่ายออกสินค้า</h2>
+        <h2>➕ บันทึกรับเข้า - จ่ายออก</h2>
         <div class="grid-form">
-            <input type="text" id="p_id" placeholder="รหัสสินค้า (เช่น KR123)">
+            <input type="text" id="p_id" list="product_ids" placeholder="รหัสสินค้า" onchange="autoFillName()">
+            <datalist id="product_ids"></datalist>
+
             <input type="text" id="p_name" placeholder="ชื่อสินค้า">
             <input type="number" id="p_qty" placeholder="จำนวน">
+            
             <select id="p_type">
-                <option value="รับเข้า">📥 รับเข้า (Stock In)</option>
-                <option value="จ่ายออก">📤 จ่ายออก (Stock Out)</option>
+                <option value="รับเข้า">📥 รับเข้า</option>
+                <option value="จ่ายออก">📤 จ่ายออก</option>
             </select>
             <button onclick="saveData()">บันทึกรายการ</button>
         </div>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">* หากเคยคีย์รหัสสินค้าแล้ว ระบบจะดึงชื่อมาให้เองอัตโนมัติ</p>
     </div>
 
     <div class="section">
-        <h2>📦 สรุปยอดสินค้าคงเหลือปัจจุบัน</h2>
-        <div class="table-container">
-            <table id="balanceTable">
-                <thead>
-                    <tr>
-                        <th>รหัสสินค้า</th>
-                        <th>ชื่อสินค้า</th>
-                        <th>รับเข้า</th>
-                        <th>จ่ายออก</th>
-                        <th>คงเหลือสุทธิ</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+        <h2>📦 ยอดสินค้าคงเหลือปัจจุบัน</h2>
+        <table id="balanceTable">
+            <thead>
+                <tr><th>รหัสสินค้า</th><th>ชื่อสินค้า</th><th>รับเข้า</th><th>จ่ายออก</th><th>คงเหลือ</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
     <div class="section">
-        <h2>📜 ประวัติรายการทั้งหมด</h2>
-        <input type="text" id="search_input" class="search-box" placeholder="🔍 ค้นหารหัส หรือ ชื่อสินค้า..." onkeyup="filterTable()">
-        <div class="table-container">
-            <table id="historyTable">
-                <thead>
-                    <tr>
-                        <th>วันที่ / เวลา</th>
-                        <th>รหัส</th>
-                        <th>ชื่อสินค้า</th>
-                        <th>ประเภท</th>
-                        <th>จำนวน</th>
-                        <th>จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <center>
-            <button class="btn-clear" onclick="clearAllData()">🗑️ ล้างข้อมูลทั้งหมดในระบบ</button>
-        </center>
+        <h2>📜 ประวัติรายการ</h2>
+        <table id="historyTable">
+            <thead>
+                <tr><th>วันที่ / เวลา</th><th>รหัส</th><th>ชื่อสินค้า</th><th>ประเภท</th><th>จำนวน</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    // เริ่มต้นระบบ
-    window.onload = function() {
-        updateUI();
-    };
+    window.onload = function() { updateUI(); };
 
     function saveData() {
         const id = document.getElementById('p_id').value.trim();
@@ -197,67 +79,52 @@
         const time = new Date().toLocaleString('th-TH');
 
         if (id && name && qty > 0) {
-            const entry = { id, name, qty, type, time, timestamp: Date.now() };
             let data = JSON.parse(localStorage.getItem('hongfa_db')) || [];
-            data.unshift(entry);
+            data.unshift({ id, name, qty, type, time });
             localStorage.setItem('hongfa_db', JSON.stringify(data));
 
-            // ล้างฟอร์ม
             document.getElementById('p_id').value = '';
             document.getElementById('p_name').value = '';
             document.getElementById('p_qty').value = '';
-            
             updateUI();
-        } else {
-            alert("กรุณากรอกข้อมูลให้ครบถ้วน และจำนวนต้องมากกว่า 0");
+        } else { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); }
+    }
+
+    function autoFillName() {
+        const inputId = document.getElementById('p_id').value;
+        let data = JSON.parse(localStorage.getItem('hongfa_db')) || [];
+        // ค้นหาชื่อล่าสุดที่ใช้คู่กับรหัสนี้
+        const found = data.find(item => item.id === inputId);
+        if (found) {
+            document.getElementById('p_name').value = found.name;
         }
     }
 
     function updateUI() {
         let data = JSON.parse(localStorage.getItem('hongfa_db')) || [];
-        renderHistory(data);
-        renderBalance(data);
-        updateStats(data);
-    }
-
-    function updateStats(data) {
-        let totalIn = 0;
-        let totalOut = 0;
-        data.forEach(item => {
-            if (item.type === 'รับเข้า') totalIn += item.qty;
-            else totalOut += item.qty;
-        });
-        document.getElementById('stat-total').innerText = data.length.toLocaleString();
-        document.getElementById('stat-in').innerText = totalIn.toLocaleString();
-        document.getElementById('stat-out').innerText = totalOut.toLocaleString();
-    }
-
-    function renderHistory(data) {
-        const tbody = document.querySelector('#historyTable tbody');
-        tbody.innerHTML = '';
-        data.forEach((item, index) => {
-            const row = tbody.insertRow();
-            const statusClass = item.type === 'รับเข้า' ? 'status-in' : 'status-out';
-            row.innerHTML = `
-                <td>${item.time}</td>
-                <td><b>${item.id}</b></td>
-                <td>${item.name}</td>
-                <td><span class="${statusClass}">${item.type}</span></td>
-                <td><b>${item.qty.toLocaleString()}</b></td>
-                <td><button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteItem(${index})">ลบ</button></td>
-            `;
-        });
-    }
-
-    function renderBalance(data) {
-        const tbody = document.querySelector('#balanceTable tbody');
-        tbody.innerHTML = '';
         
-        // คำนวณยอดคงเหลือรายสินค้า
+        // 1. อัปเดตตารางประวัติ
+        const histBody = document.querySelector('#historyTable tbody');
+        histBody.innerHTML = '';
+        data.forEach(item => {
+            const row = histBody.insertRow();
+            row.innerHTML = `<td>${item.time}</td><td>${item.id}</td><td>${item.name}</td><td>${item.type}</td><td>${item.qty}</td>`;
+        });
+
+        // 2. อัปเดตตารางสรุป และเตรียมรายชื่อสินค้าสำหรับ Auto-complete
+        const balanceBody = document.querySelector('#balanceTable tbody');
+        const datalist = document.getElementById('product_ids');
+        balanceBody.innerHTML = '';
+        datalist.innerHTML = '';
+
         const balanceMap = {};
         data.forEach(item => {
             if (!balanceMap[item.id]) {
                 balanceMap[item.id] = { name: item.name, in: 0, out: 0 };
+                // เพิ่มเข้า Datalist เพื่อให้เลือกได้ในรอบหน้า
+                let option = document.createElement('option');
+                option.value = item.id;
+                datalist.appendChild(option);
             }
             if (item.type === 'รับเข้า') balanceMap[item.id].in += item.qty;
             else balanceMap[item.id].out += item.qty;
@@ -265,44 +132,10 @@
 
         for (const id in balanceMap) {
             const item = balanceMap[id];
-            const net = item.in - item.out;
-            const row = tbody.insertRow();
-            row.innerHTML = `
-                <td><b>${id}</b></td>
-                <td>${item.name}</td>
-                <td style="color:green">+${item.in.toLocaleString()}</td>
-                <td style="color:red">-${item.out.toLocaleString()}</td>
-                <td><span class="badge-qty">${net.toLocaleString()}</span></td>
-            `;
-        }
-    }
-
-    function filterTable() {
-        const input = document.getElementById('search_input').value.toUpperCase();
-        const rows = document.querySelector('#historyTable tbody').getElementsByTagName('tr');
-        for (let i = 0; i < rows.length; i++) {
-            const text = rows[i].innerText.toUpperCase();
-            rows[i].style.display = text.indexOf(input) > -1 ? "" : "none";
-        }
-    }
-
-    function deleteItem(index) {
-        if (confirm("ยืนยันการลบรายการนี้ใช่หรือไม่?")) {
-            let data = JSON.parse(localStorage.getItem('hongfa_db')) || [];
-            data.splice(index, 1);
-            localStorage.setItem('hongfa_db', JSON.stringify(data));
-            updateUI();
-        }
-    }
-
-    function clearAllData() {
-        if (confirm("⚠️ คำเตือน: คุณต้องการล้างข้อมูลทั้งหมดในระบบใช่หรือไม่? ข้อมูลจะหายถาวร!")) {
-            localStorage.removeItem('hongfa_db');
-            updateUI();
+            const row = balanceBody.insertRow();
+            row.innerHTML = `<td>${id}</td><td>${item.name}</td><td>${item.in}</td><td>${item.out}</td><td><span class="badge-qty">${item.in - item.out}</span></td>`;
         }
     }
 </script>
-
 </body>
 </html>
-
